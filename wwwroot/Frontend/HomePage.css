@@ -1,0 +1,57 @@
+body {
+    background-color: black;
+    color: white; /* Change the text color to white for visibility */
+}
+.glow-bg-Header {
+    background: linear-gradient(to bottom, purple 0%, black 100%);
+    width: 100vw;
+    max-width: none; /* Add this line */
+}
+.glow-bg-Header {
+    background: linear-gradient(to bottom, rgb(64, 1, 64) 0%, black 100%);
+}
+.glow-bg-Footer {
+    background: linear-gradient(to top, purple 0%, black 100%);
+}
+.row.bg-image {
+    background-image: url('Materials/sk.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* Path: HomePage.js */
+.gradient-text1 {
+    background: linear-gradient(to right, white, black);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.gradient-text2 {
+    background: linear-gradient(to right, rgb(0, 0, 0), rgb(255, 255, 255));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Add this rule to override the max-width property of the navbar class */
+.navbar {
+    max-width: none;
+}
+/* Add this rule to override the max-width property of the navbar class */
+.btn-outline-purple {
+    border-color: purple;
+    color: rgb(239, 239, 239);
+}
+
+.btn-outline-purple:hover {
+    background-color: purple;
+    color: rgb(255, 255, 255);
+}
+
+.glow {
+    box-shadow: 0 0 10px purple, 0 0 15px purple;
+}
+
+/* Path: HomePage.js */
+.selected {
+    border: 3px solid purple;
+    box-shadow: 0 0 10px purple, 0 0 15px purple;
+}

@@ -1,34 +1,51 @@
+using System.Data;
+using Microsoft.Data.Sqlite;
+using Travel_Website.Models;
+using Dapper;
+using Microsoft.Extensions.Options;
+
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-
+builder.Services.AddScoped<IDbConnection>(b => new SqliteConnection("Data Source=Database/places.db"));
 var app = builder.Build();
+app.UseStaticFiles();
 
-// Configure the HTTP request pipeline.
+//app.UseHttpsRedirection();
 
-app.UseHttpsRedirection();
+#region Places Controller 
 
-var summaries = new[]
+app.MapGet("/places", async (IDbConnection db) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    var sql = "SELECT * FROM Places;";
+    var places = await db.QueryAsync<Place>(sql);
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-    return forecast;
+    return Results.Ok(places);
 });
+
+app.MapPost("/places", async (Place place, IDbConnection db) =>
+{
+    var sql = "INSERT INTO Places (Name, Image) VALUES (@Name, @Image);";
+    var rowsAffected = await db.ExecuteAsync(sql, place);
+
+    return rowsAffected > 0 ? Results.Ok() : Results.BadRequest();
+});
+
+app.MapDelete("/places/{id}", async (int id, IDbConnection db) =>
+{
+    var sql = "DELETE FROM Places WHERE Id = @Id;";
+    var rowsAffected = await db.ExecuteAsync(sql, new { Id = id });
+
+    return rowsAffected > 0 ? Results.Ok() : Results.NotFound();
+});
+
+app.MapPut("/places/{id}", async (int id, Place place, IDbConnection db) =>
+{
+    var sql = "UPDATE Places SET Name = @Name, Image = @Image WHERE Id = @Id;";
+    var rowsAffected = await db.ExecuteAsync(sql, new { Id = id, Name = place.Name, Image = place.Image });
+
+    return rowsAffected > 0 ? Results.Ok() : Results.NotFound();
+});
+#endregion
+
 
 app.Run();
 
-internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
