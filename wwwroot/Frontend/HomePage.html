@@ -14,49 +14,42 @@
   <body>
 
     <nav class="navbar navbar-expand-lg navbar-dark glow-bg-Header w-100">
-      <div class="d-flex justify-content-between align-items-center w-100">
-        <div class="d-flex">
-          <a class="navbar-brand" href="admin.html">Admin</a>
-          <a class="navbar-brand" href="#">Discover</a>
-          <a class="navbar-brand" href="#">Reviews</a>
-        </div>
-        <a class="navbar-brand" href="#">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <img src="Materials/logo.svg" alt="Logo" height="40" width="40"> <!-- Replace the hamburger icon with your logo -->
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <div class="d-flex flex-lg-row flex-column justify-content-between align-items-center w-100"> <!-- Change the flex direction to column on smaller screens -->
+          <div class="d-flex">
+            <a class="navbar-brand" href="admin.html">Admin</a>
+            <a class="navbar-brand" href="#">Discover</a>
+            <a class="navbar-brand" href="#">Reviews</a>
+          </div>
+          <a class="navbar-brand  d-none d-lg-block" href="#">
             <img src="Materials/logo.svg" alt="Logo" height="40" width="40">
-        </a>
-        <form class="form-inline position-relative">
-          <input class="form-control mr-sm-2 rounded" type="search"
-          placeholder="Places to go" aria-label="Search" style="padding-right:
-          50px;" /* Add right padding to prevent the text from going under the
-          button */ />
-          <button
-            class="btn btn-outline-success my-2 my-sm-0 position-absolute"
-            type="submit"
-            style="right: 8px; top: 50%; transform: translateY(-50%)"
-          >
-            <img
-              src="Materials/search-interface-symbol.png"
-              alt="Search"
-              style="width: 20px; height: 20px"
-            />
-          </button>
-        </form>
+          </a>
+          <form class="form-inline position-relative mt-lg-0 mt-3 d-none d-md-block" style="position: relative;"> <!-- Add d-none d-md-block -->
+            <input class="form-control mr-sm-2 rounded" type="search" placeholder="Places to go" aria-label="Search" style="padding-right: 50px;" />
+            <button class="btn btn-outline-success my-2 my-sm-0 position-absolute" type="submit" style="right: 8px; top: 50%; transform: translateY(-50%)">
+              <img src="Materials/search-interface-symbol.png" alt="Search" style="width: 15px; height: 15px" />
+            </button>
+          </form>
+        </div>
       </div>
     </nav>
-
     <div class="container-fluid">
 
       <div class="row bg-image" style="max-height: 300px;">
-        <div class="col-3  gradient-text2 text-left h3 pl-4 py-3 px-2 d-flex flex-column justify-content-center" ">
-            Missing the pristine <br />night sky and<br />
-            natural places <br />untouched by<br />
-            artificial light ?
+        <div class="col-3 gradient-text2 text-left h3 pl-4 py-3 px-2 d-flex flex-column justify-content-center d-lg-block d-none">
+          Missing the pristine <br />night sky and<br />
+          natural places <br />untouched by<br />
+          artificial light ?
         </div>
         <div class="col text-center h4 py-3 px-2 d-flex flex-column justify-content-center" ">
             Lets see the stars<br />  Lets see the stars<br />  Lets see the stars
         </div>
-        <div class="col-3 gradient-text1 text-right h3 pr-3 py-3 px-2 d-flex flex-column justify-content-center" ">
-            You can't imagine<br />
-            whats possible <br />to be seen
+        <div class="col-3 gradient-text1 text-right h3 pr-3 py-3 px-2 d-flex flex-column justify-content-center d-lg-block d-none">
+          You can't imagine<br />
+          whats possible <br />to be seen
         </div>
       </div>
 
@@ -68,13 +61,13 @@
             <input type="date" id="initial-date" class="form-control">
         </div>
         <div class="col d-flex flex-column align-items-center">
-            <label for="budget">Budget</label>
-            <input type="number" id="budget" class="form-control">
+          <label for="end-date">End Date</label>
+          <input type="date" id="end-date" class="form-control">
         </div>
         <div class="col d-flex flex-column align-items-center">
-            <label for="end-date">End Date</label>
-            <input type="date" id="end-date" class="form-control">
-        </div>
+            <label for="budget">Budget</label>
+            <input type="number" id="budget" class="form-control">
+        </div>   
       </div>
       <div class="row">
         <div class="col-12  text-center h3 py-3 px-2">
@@ -82,18 +75,20 @@
           </div>
       </div>
     <div class="row">
-      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <!-- Carousel items will be dynamically inserted here -->
+      <div class="col-md-12 mx-auto">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+          <div class="carousel-inner">
+            <!-- Carousel items will be dynamically inserted here -->
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
       </div>
     </div>
 
@@ -102,10 +97,11 @@
             <button class="btn btn-outline-purple glow">Book Your Spot</button>
         </div>
     </div>
-      <div class="row glow-bg-Footer">
-        <div class="col">Copyright © 2024 Basim Adam All rights reserved.</div>
-      </div>
+      
     </div>
+    <footer class="row glow-bg-Footer sticky-footer">
+      <div class="col">Copyright © 2024 Basim Adam All rights reserved.</div>
+    </footer>
     <script src="HomePage.js"></script>
     <!-- Import Bootstrap JS and its dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>

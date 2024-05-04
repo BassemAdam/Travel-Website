@@ -1,68 +1,121 @@
-//Add Place
-// Select the form and the inputs
-const form = document.querySelector('form');
-const titleInput = document.querySelector('#title');
-const imageInput = document.querySelector('#image');
+// Add Place
+const addForm = document.querySelector('#add form');
+const titleInput = addForm.querySelector('#title');
+const imageInput = addForm.querySelector('#image');
 
-// Add an event listener to the form
-form.addEventListener('submit', function(event) {
-  // Prevent the form from being submitted normally
+addForm.addEventListener('submit', function(event) {
   event.preventDefault();
-
-  // Create a new FormData object
   const formData = new FormData();
-
-  // Append the title and image to the FormData object
-  formData.append('title', titleInput.value);
+  formData.append('name', titleInput.value);
   formData.append('image', imageInput.files[0]);
 
-  // Send a POST request to the server
-  fetch('https://localhost:7241/places', {
+  // Log the data
+  formData.forEach((value, key) => {
+    console.log(key + ': ' + value);
+  });
+
+  fetch('/places', {
     method: 'POST',
     body: formData
   })
-  .then(response => response.json())
-  .then(data => console.log('Success:', data))
-  .catch(error => console.error('Error:', error));
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('HTTP error ' + response.status);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Success:', data);
+
+    // Create a new success message element
+    let successMessage = document.createElement('p');
+    successMessage.textContent = 'Successfully added place';
+    successMessage.style.color = 'green';
+
+    // Append the success message to the form
+    addForm.appendChild(successMessage);
+
+    // Remove the success message after 3 seconds
+    setTimeout(() => {
+      addForm.removeChild(successMessage);
+    }, 3000);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+
+    // Create a new error message element
+    let errorMessage = document.createElement('p');
+    errorMessage.textContent = 'Error adding place';
+    errorMessage.style.color = 'red';
+
+    // Append the error message to the form
+    addForm.appendChild(errorMessage);
+
+    // Remove the error message after 3 seconds
+    setTimeout(() => {
+      addForm.removeChild(errorMessage);
+    }, 3000);
+  });
 });
 
-//Remove Place
-// Fetch data from the API
-fetch('https://localhost:7241/places')
+
+// Remove Place
+fetch('/places/names')
   .then(response => response.json())
   .then(data => {
-    // Get the select element
     let select = document.querySelector('#removePlaceSelect');
-
-    // Loop through the data
     data.forEach(item => {
-      // Create a new option element
       let option = document.createElement('option');
       option.value = item.id;
       option.textContent = item.name;
-
-      // Append the option to the select
       select.appendChild(option);
     });
   })
   .catch(error => console.error('Error:', error));
+const removeForm = document.querySelector('#remove form');
 
-// Select the form
-const rform = document.querySelector('#remove rform');
-
-// Add an event listener to the rform
-rform.addEventListener('submit', function(event) {
-  // Prevent the rform from being submitted normally
+removeForm.addEventListener('submit', function(event) {
   event.preventDefault();
-
-  // Get the selected option
   let selectedOption = document.querySelector('#removePlaceSelect option:checked');
-
-  // Send a DELETE request to the server
-  fetch(`https://localhost:7241/places/${selectedOption.value}`, {
+  fetch(`/places/${selectedOption.value}`, {
     method: 'DELETE',
   })
-  .then(response => response.json())
-  .then(data => console.log('Success:', data))
-  .catch(error => console.error('Error:', error));
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('HTTP error ' + response.status);
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log('Success:', data);
+
+    // Create a new success message element
+    let successMessage = document.createElement('p');
+    successMessage.textContent = 'Successfully deleted place';
+    successMessage.style.color = 'green';
+
+    // Append the success message to the form
+    removeForm.appendChild(successMessage);
+
+    // Remove the success message after 3 seconds
+    setTimeout(() => {
+      removeForm.removeChild(successMessage);
+    }, 3000);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+
+    // Create a new error message element
+    let errorMessage = document.createElement('p');
+    errorMessage.textContent = 'Error deleting place';
+    errorMessage.style.color = 'red';
+
+    // Append the error message to the form
+    removeForm.appendChild(errorMessage);
+
+    // Remove the error message after 3 seconds
+    setTimeout(() => {
+      removeForm.removeChild(errorMessage);
+    }, 3000);
+  });
 });

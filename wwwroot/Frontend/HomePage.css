@@ -1,7 +1,20 @@
+@media (max-width: 991.98px) {
+    .gradient-text1,
+    .gradient-text2 {
+      display: none !important;
+    }
+  }
 body {
     background-color: black;
     color: white; /* Change the text color to white for visibility */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
+
+  footer {
+    margin-top: auto;
+  }
 .glow-bg-Header {
     background: linear-gradient(to bottom, purple 0%, black 100%);
     width: 100vw;
@@ -50,8 +63,3 @@ body {
     box-shadow: 0 0 10px purple, 0 0 15px purple;
 }
 
-/* Path: HomePage.js */
-.selected {
-    border: 3px solid purple;
-    box-shadow: 0 0 10px purple, 0 0 15px purple;
-}
