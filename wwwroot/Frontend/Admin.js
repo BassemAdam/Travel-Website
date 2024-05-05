@@ -7,8 +7,14 @@ addForm.addEventListener('submit', function(event) {
   event.preventDefault();
   const formData = new FormData();
   formData.append('name', titleInput.value);
-  formData.append('image', imageInput.files[0]);
-
+  
+  // Check if the selected file is a WebP or AVIF image
+  if (imageInput.files[0].type === 'image/webp' || imageInput.files[0].type === 'image/avif') {
+    formData.append('image', imageInput.files[0]);
+  } else {
+    alert('Please select a WebP or AVIF image');
+    return;
+  }
   // Log the data
   formData.forEach((value, key) => {
     console.log(key + ': ' + value);
