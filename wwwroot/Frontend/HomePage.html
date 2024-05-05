@@ -9,7 +9,8 @@
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="HomePage.css" />
+    <link rel="preload" href="HomePage.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="HomePage.css"></noscript>
   </head>
   <body>
 
@@ -102,7 +103,7 @@
     <footer class="row glow-bg-Footer sticky-footer">
       <div class="col">Copyright © 2024 Basim Adam All rights reserved.</div>
     </footer>
-    <script src="HomePage.js"></script>
+    <script src="HomePage.js" defer></script>
     <!-- Import Bootstrap JS and its dependencies -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>

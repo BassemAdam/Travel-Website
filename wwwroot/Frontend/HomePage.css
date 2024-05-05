@@ -27,9 +27,11 @@ body {
     background: linear-gradient(to top, purple 0%, black 100%);
 }
 .row.bg-image {
-    background-image: url('Materials/sk.png');
+    background-image: url('Materials/sk.webp');
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
+    
 }
 
 /* Path: HomePage.js */
