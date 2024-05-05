@@ -1,4 +1,3 @@
-// Add Place
 const addForm = document.querySelector('#add form');
 const titleInput = addForm.querySelector('#title');
 const imageInput = addForm.querySelector('#image');
@@ -8,14 +7,13 @@ addForm.addEventListener('submit', function(event) {
   const formData = new FormData();
   formData.append('name', titleInput.value);
   
-  // Check if the selected file is a WebP or AVIF image
   if (imageInput.files[0].type === 'image/webp' || imageInput.files[0].type === 'image/avif') {
     formData.append('image', imageInput.files[0]);
   } else {
     alert('Please select a WebP or AVIF image');
     return;
   }
-  // Log the data
+
   formData.forEach((value, key) => {
     console.log(key + ': ' + value);
   });
@@ -33,15 +31,12 @@ addForm.addEventListener('submit', function(event) {
   .then(data => {
     console.log('Success:', data);
 
-    // Create a new success message element
     let successMessage = document.createElement('p');
     successMessage.textContent = 'Successfully added place';
     successMessage.style.color = 'green';
 
-    // Append the success message to the form
     addForm.appendChild(successMessage);
 
-    // Remove the success message after 3 seconds
     setTimeout(() => {
       addForm.removeChild(successMessage);
     }, 3000);
@@ -49,23 +44,18 @@ addForm.addEventListener('submit', function(event) {
   .catch(error => {
     console.error('Error:', error);
 
-    // Create a new error message element
     let errorMessage = document.createElement('p');
     errorMessage.textContent = 'Error adding place';
     errorMessage.style.color = 'red';
 
-    // Append the error message to the form
     addForm.appendChild(errorMessage);
 
-    // Remove the error message after 3 seconds
     setTimeout(() => {
       addForm.removeChild(errorMessage);
     }, 3000);
   });
 });
 
-
-// Remove Place
 fetch('/places/names')
   .then(response => response.json())
   .then(data => {
@@ -78,6 +68,7 @@ fetch('/places/names')
     });
   })
   .catch(error => console.error('Error:', error));
+
 const removeForm = document.querySelector('#remove form');
 
 removeForm.addEventListener('submit', function(event) {
@@ -95,15 +86,12 @@ removeForm.addEventListener('submit', function(event) {
   .then(data => {
     console.log('Success:', data);
 
-    // Create a new success message element
     let successMessage = document.createElement('p');
     successMessage.textContent = 'Successfully deleted place';
     successMessage.style.color = 'green';
 
-    // Append the success message to the form
     removeForm.appendChild(successMessage);
 
-    // Remove the success message after 3 seconds
     setTimeout(() => {
       removeForm.removeChild(successMessage);
     }, 3000);
@@ -111,15 +99,12 @@ removeForm.addEventListener('submit', function(event) {
   .catch(error => {
     console.error('Error:', error);
 
-    // Create a new error message element
     let errorMessage = document.createElement('p');
     errorMessage.textContent = 'Error deleting place';
     errorMessage.style.color = 'red';
 
-    // Append the error message to the form
     removeForm.appendChild(errorMessage);
 
-    // Remove the error message after 3 seconds
     setTimeout(() => {
       removeForm.removeChild(errorMessage);
     }, 3000);

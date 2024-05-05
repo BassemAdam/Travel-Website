@@ -14,7 +14,6 @@ var app = builder.Build();
 app.UseStaticFiles();
 
 
-
 #region Places Controller 
 
 app.MapGet("/places/all", async (IDbConnection db) =>
@@ -72,6 +71,7 @@ app.MapPut("/places/{id}", async (int id, Place place, IDbConnection db) =>
 
     return rowsAffected > 0 ? Results.Ok() : Results.NotFound();
 });
+
 #endregion
 
 
