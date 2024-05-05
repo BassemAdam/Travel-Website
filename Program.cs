@@ -38,12 +38,12 @@ app.MapPost("/places", async (HttpRequest req, IDbConnection db) =>
             return Results.BadRequest("Image and name are required.");
         }
 
-        // Convert the image to a byte array
+       
         using var memoryStream = new MemoryStream();
         await image.CopyToAsync(memoryStream);
         var imageBytes = memoryStream.ToArray();
 
-        // Resize and compress the image using Magick.NET
+        
         using var output = new MemoryStream();
         using (var input = new MemoryStream(imageBytes))
         {
@@ -54,10 +54,10 @@ app.MapPost("/places", async (HttpRequest req, IDbConnection db) =>
         }
         var optimizedImageBytes = output.ToArray();
 
-        // Create a new Place object
+      
         var place = new Place { Name = name, Image = optimizedImageBytes };
 
-        // Insert the place into the database
+        
         var sql = "INSERT INTO Places (Name, Image) VALUES (@Name, @Image);";
         var rowsAffected = await db.ExecuteAsync(sql, place);
 
