@@ -3,12 +3,24 @@ using Microsoft.Data.Sqlite;
 using Travel_Website.Models;
 using Dapper;
 using ImageMagick;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IDbConnection>(b => new SqliteConnection("Data Source=./wwwroot/Database/places.db"));
 
 var app = builder.Build();
 app.UseStaticFiles();
+
+
+app.UseStaticFiles(new StaticFileOptions
+{
+    OnPrepareResponse = ctx =>
+    {
+        const int durationInSeconds = 60 * 60 * 2; // 2 hours
+        ctx.Context.Response.Headers[HeaderNames.CacheControl] =
+            "public,max-age=" + durationInSeconds;
+    }
+});
 
 
 #region Places Controller 
