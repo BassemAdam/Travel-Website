@@ -2,10 +2,7 @@ using System.Data;
 using Microsoft.Data.Sqlite;
 using Travel_Website.Models;
 using Dapper;
-using Microsoft.AspNetCore.Antiforgery;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
+using ImageMagick;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<IDbConnection>(b => new SqliteConnection("Data Source=./wwwroot/Database/places.db"));
@@ -34,15 +31,31 @@ app.MapPost("/places", async (HttpRequest req, IDbConnection db) =>
     {
         var form = await req.ReadFormAsync();
         var image = form.Files["image"];
-        var name = form["name"];
+        var name = form["name"].ToString();
+
+        if (image == null || string.IsNullOrEmpty(name))
+        {
+            return Results.BadRequest("Image and name are required.");
+        }
 
         // Convert the image to a byte array
         using var memoryStream = new MemoryStream();
         await image.CopyToAsync(memoryStream);
         var imageBytes = memoryStream.ToArray();
 
+        // Resize and compress the image using Magick.NET
+        using var output = new MemoryStream();
+        using (var input = new MemoryStream(imageBytes))
+        {
+            using var img = new MagickImage(input);
+            img.Resize(400, 0);
+            img.Format = MagickFormat.WebP;
+            img.Write(output);
+        }
+        var optimizedImageBytes = output.ToArray();
+
         // Create a new Place object
-        var place = new Place { Name = name, Image = imageBytes };
+        var place = new Place { Name = name, Image = optimizedImageBytes };
 
         // Insert the place into the database
         var sql = "INSERT INTO Places (Name, Image) VALUES (@Name, @Image);";
@@ -55,6 +68,8 @@ app.MapPost("/places", async (HttpRequest req, IDbConnection db) =>
         return Results.BadRequest("Request must have a form content type.");
     }
 }).DisableAntiforgery();
+
+
 
 app.MapDelete("/places/{id}", async (int id, IDbConnection db) =>
 {

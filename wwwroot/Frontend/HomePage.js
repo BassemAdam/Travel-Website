@@ -44,7 +44,7 @@ fetch('/places/all')
 
           let img = document.createElement('img');
           img.className = 'd-block w-200 rounded';
-          img.src = 'data:image/jpeg;base64,' + item.image;
+          img.src = 'data:image/webp;base64,' + item.image;
           img.alt = 'Slide ' + (i + j + 1);
           img.style.height = '400px';
           img.style.width = '100%';
