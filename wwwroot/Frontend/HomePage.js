@@ -1,3 +1,27 @@
+document.addEventListener("DOMContentLoaded", function() {
+  let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+  if ("IntersectionObserver" in window) {
+    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          let lazyImage = entry.target;
+          lazyImage.src = lazyImage.dataset.src;
+          lazyImage.classList.remove("lazy");
+          observer.unobserve(lazyImage); 
+        }
+      });
+    }, {
+      root: document.querySelector('.carousel-inner'), 
+      threshold: 0.1 
+    });
+
+    lazyImages.forEach(function(lazyImage) {
+      lazyImageObserver.observe(lazyImage);
+    });
+  }
+});
+
 fetch('/places/all')
   .then(response => {
     if (!response.ok) {
@@ -35,9 +59,9 @@ fetch('/places/all')
           let imgContainer = document.createElement('div');
           imgContainer.style.width = '50%'; // Set the width of the container to 50%
 
-          let img = document.createElement('img');
-          img.className = 'd-block w-200 rounded mx-auto'; // Add mx-auto to center the image
-          img.src = 'data:image/webp;base64,' + item.image;
+         let img = document.createElement('img');
+          img.className = 'd-block w-200 rounded mx-auto lazy'; // Add 'lazy' to the class list
+          img.dataset.src = 'data:image/webp;base64,' + item.image; // Use 'dataset.src' instead of 'src'
           img.alt = 'Slide ' + (i + j + 1);
           img.style.height = '200px'; // Decreased from 400px to 200px
           img.style.width = '100%'; // Set the width of the image to 100%
