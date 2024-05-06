@@ -1,27 +1,3 @@
-document.addEventListener("DOMContentLoaded", function() {
-  let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
-
-  if ("IntersectionObserver" in window) {
-    let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          let lazyImage = entry.target;
-          lazyImage.src = lazyImage.dataset.src;
-          lazyImage.classList.remove("lazy");
-          observer.unobserve(lazyImage); 
-        }
-      });
-    }, {
-      root: document.querySelector('.carousel-inner'), 
-      threshold: 0.1 
-    });
-
-    lazyImages.forEach(function(lazyImage) {
-      lazyImageObserver.observe(lazyImage);
-    });
-  }
-});
-
 fetch('/places/all')
   .then(response => {
     if (!response.ok) {
@@ -43,7 +19,7 @@ fetch('/places/all')
 
       let row = document.createElement('div');
       row.className = 'row';
-    for (let j = 0; j < 3; j++) {
+      for (let j = 0; j < 3; j++) {
         if (i + j < data.length) {
           let item = data[i + j];
           let col = document.createElement('div');
@@ -53,23 +29,23 @@ fetch('/places/all')
           let h3 = document.createElement('h3');
           h3.className = 'position-absolute p-3 top-0 right-0 text-white';
           h3.style.zIndex = '1';
-          h3.style.fontSize = '1em'; // Decreased from default size to 1em
+          h3.style.fontSize = '1em'; 
           h3.textContent = item.name;
 
           let imgContainer = document.createElement('div');
-          imgContainer.style.width = '50%'; // Set the width of the container to 50%
+          imgContainer.style.width = '50%'; 
 
-         let img = document.createElement('img');
-          img.className = 'd-block w-200 rounded mx-auto lazy'; // Add 'lazy' to the class list
-          img.dataset.src = 'data:image/webp;base64,' + item.image; // Use 'dataset.src' instead of 'src'
+          let img = document.createElement('img');
+          img.className = 'd-block w-200 rounded mx-auto lazy'; 
+          img.dataset.src = 'data:image/webp;base64,' + item.image; 
           img.alt = 'Slide ' + (i + j + 1);
-          img.style.height = '200px'; // Decreased from 400px to 200px
-          img.style.width = '100%'; // Set the width of the image to 100%
+          img.style.height = '200px'; 
+          img.style.width = '100%'; 
           img.style.objectFit = 'cover';
 
-          imgContainer.appendChild(img); // Append the image to the container
+          imgContainer.appendChild(img); 
           col.appendChild(h3);
-          col.appendChild(imgContainer); // Append the container to the column
+          col.appendChild(imgContainer); 
           row.appendChild(col);
         }
       }
@@ -78,10 +54,27 @@ fetch('/places/all')
       carouselInner.appendChild(carouselItem);
     }
 
-    document.querySelectorAll('img').forEach(img => {
-      img.addEventListener('click', function() {
-        selectImage(this);
+    // Set up the Intersection Observer after the images have been added to the DOM
+    let lazyImages = [].slice.call(document.querySelectorAll("img.lazy"));
+
+    if ("IntersectionObserver" in window) {
+      let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            let lazyImage = entry.target;
+            lazyImage.src = lazyImage.dataset.src;
+            lazyImage.classList.remove("lazy");
+            observer.unobserve(lazyImage);
+          }
+        });
+      }, {
+        root: document.querySelector('.carousel-inner'), 
+        threshold: 0.1 
       });
-    });
+
+      lazyImages.forEach(function(lazyImage) {
+        lazyImageObserver.observe(lazyImage);
+      });
+    }
   })
   .catch(error => console.error('Error:', error));
