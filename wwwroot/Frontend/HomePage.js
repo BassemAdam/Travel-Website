@@ -1,3 +1,4 @@
+
 fetch('/places/all')
   .then(response => {
     if (!response.ok) {
